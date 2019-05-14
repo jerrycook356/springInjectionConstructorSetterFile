@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--file to use for value injection -->
+    <context:property-placeholder location = "classpath:sport.properties"/> 
+    
+    <!-- Define your beans here -->
+    <!-- bean with no injection just calls default constructor -->
+    <bean id="myFortune"
+    	class="com.cookjerry.springTry.HappyFortuneService">
+    </bean>
+    
+    <!-- bean using constructor injection of the myFortune bean -->
+    <bean id="myBaseballCoach"
+    	class="com.cookjerry.springTry.BaseballCoach">
+    	<constructor-arg ref="myFortune"/>
+    	
+    </bean>
+    
+    <!-- bean using setter injection -->
+    <bean id= "myTrackCoach"
+    	class = "com.cookjerry.springTry.TrackCoach">
+    	<property name="fortuneService" ref = "myFortune"></property>
+    </bean>
+    
+    <!--bean using setter injection and literal injection of values -->
+    <bean id="myCricketCoach"
+    	class = "com.cookjerry.springTry.CricketCoach">
+    	<!--setter injection -->
+    	<property name="fortuneService" ref= "myFortune">
+    	</property>
+    	<property name="emailAddress" value="cricketCoach@email.com">
+    	</property>
+    	<property name="team" value = "cricketTeam">
+    	</property>
+   	</bean>
+   	
+   	<!--bean using file for injection of values and using setter injection -->
+   	<bean id ="myFootballCoach"
+   		class="com.cookjerry.springTry.FootballCoach">
+   		<property name="fortuneService" ref="myFortune">
+   		</property>
+   		<property name = "emailAddress" value="${foo.email}"/>
+   		<property name="team" value="${foo.team}"/>
+   		</bean>
+    
+</beans>
+
+
+
+
+
